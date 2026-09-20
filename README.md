@@ -2,9 +2,9 @@
 
 A PC configurator with live compatibility checking, side-by-side spec comparison, and an interactive 3D build preview.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=PASTE-YOUR-REPO-URL-HERE)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Pritesh-05/QuickBuild)
 
-**Live app:** _add your Vercel URL here once deployed_
+**Live app:** [_add your Vercel URL here once deployed_](https://quick-build-neon.vercel.app)
 
 ## Features
 
