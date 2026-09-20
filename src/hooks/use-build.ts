@@ -37,7 +37,17 @@ export function useBuild() {
   const storageKey = user?.id ? `${STORAGE_KEY}.${user.id}` : STORAGE_KEY;
 
   const [build, setBuild] = useState<BuildState>(EMPTY_BUILD);
-  const [loaded, setLoaded] = useState(false);
+  // Tracks which storageKey the current `build` state has actually been
+  // hydrated for — not just a plain "have we loaded yet" boolean. That
+  // distinction matters the moment storageKey changes (i.e. the signed-in
+  // user changes): both effects below re-run in the same commit, and a
+  // plain boolean would stay `true` across that transition, letting the
+  // write-effect fire once more with the OUTGOING user's `build` value
+  // but the INCOMING user's storageKey — writing user A's build into user
+  // B's slot. Comparing hydratedKey to storageKey keeps the write-effect
+  // correctly blocked until hydration has actually caught up.
+  const [hydratedKey, setHydratedKey] = useState<string | null>(null);
+  const loaded = hydratedKey === storageKey;
   // Tracks which saved-to-account build (if any) is currently loaded, so
   // "Save build" updates that row instead of always creating a new one.
   const [currentSave, setCurrentSave] = useState<{ id: string; name: string } | null>(null);
@@ -50,7 +60,7 @@ export function useBuild() {
     } catch {
       /* ignore malformed local state */
     }
-    setLoaded(true);
+    setHydratedKey(storageKey);
     // Deliberately re-runs when storageKey changes (i.e. when the signed-in
     // user changes) — that's the whole point. Catalog swapping from static
     // to DB data isn't worth re-running hydration for, and would fight the
