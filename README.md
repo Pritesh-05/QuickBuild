@@ -4,7 +4,9 @@ A PC configurator with live compatibility checking, side-by-side spec comparison
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Pritesh-05/QuickBuild)
 
-**Live app:** [QuickBuild](https://quick-build-neon.vercel.app)
+### 🚀 Live Demo
+
+[![Live Demo](https://img.shields.io/badge/🚀%20Live%20Demo-QuickBuild-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://quick-build-neon.vercel.app)
 
 ## Features
 
