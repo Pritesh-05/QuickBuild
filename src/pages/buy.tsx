@@ -23,18 +23,15 @@ const RETAILERS = [
       `https://www.flipkart.com/search?q=${encodeURIComponent(q)}`,
   },
   {
-    id: "reliance-digital",
-    label: "Reliance Digital",
+    id: "mdcomputers",
+    label: "MD Computers",
     accent: "#e0473f",
+    // MD Computers is a real Indian PC-component retailer with a plain,
+    // server-rendered search URL — unlike Croma/Reliance Digital, this
+    // reliably lands on actual results rather than a blank client-routed
+    // shell.
     url: (q: string) =>
-      `https://www.reliancedigital.in/search?q=${encodeURIComponent(q)}%3Arelevance`,
-  },
-  {
-    id: "croma",
-    label: "Croma",
-    accent: "#3ecf8e",
-    url: (q: string) =>
-      `https://www.croma.com/searchB?q=${encodeURIComponent(q)}`,
+      `https://mdcomputers.in/index.php?route=product/search&search=${encodeURIComponent(q)}&category_id=0`,
   },
 ] as const;
 
