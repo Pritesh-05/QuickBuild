@@ -2,7 +2,7 @@
 
 Pick PC components, check compatibility instantly, compare hardware specs side by side, and assemble your build in an interactive 3D configurator — with live compatibility checks, PDF export, and real marketplace buy links.
 
-**🔗 Live demo:** [QuickBuild]([https://your-project.vercel.app](https://quick-build-neon.vercel.app)) <!-- TODO: replace with your actual Vercel deployment URL -->
+**🔗 Live demo:** [QuickBuild]([https://quick-build-neon.vercel.app]) <!-- TODO: replace with your actual Vercel deployment URL -->
 
 ---
 
