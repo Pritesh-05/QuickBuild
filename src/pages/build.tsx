@@ -213,6 +213,15 @@ function Console() {
             <Home className="size-4" />
             <span className="hidden sm:inline">Home</span>
           </Link>
+          <Link
+            to="/buy"
+            title="Where to buy"
+            aria-label="Where to buy"
+            className="mono-label flex h-9 shrink-0 items-center gap-1.5 border border-border px-2 text-muted-foreground transition-colors hover:border-brand hover:text-brand sm:px-3"
+          >
+            <ShoppingCart className="size-4" />
+            <span className="hidden sm:inline">Where to Buy</span>
+          </Link>
           <p className="mono-label hidden truncate text-muted-foreground sm:block">
             <span className="text-brand">build</span> // {currentSave?.name ?? "untitled rig"}
           </p>
