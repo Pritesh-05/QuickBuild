@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useRouteContext } from "@tanstack/react-router";
 import type { BuildState, CategoryId, Part, PartByCategory } from "@/data/types";
 import { analyzeBuild, EMPTY_BUILD } from "@/lib/compatibility";
 import { getBuild, saveBuild } from "@/lib/functions/builds.functions";
@@ -27,15 +26,6 @@ function hydrate(
 
 export function useBuild() {
   const { data: catalog } = useCatalog();
-  // Signed-out visitors share the plain key (no cross-account leak risk —
-  // there's no "account" to leak between). Signed-in, the in-progress
-  // build has to be scoped per user id, or whoever's logged in next on
-  // this browser/device sees the previous person's unsaved build the
-  // moment they open /build — which is exactly what was happening before
-  // this scoping existed.
-  const { user } = useRouteContext({ from: "__root__" });
-  const storageKey = user?.id ? `${STORAGE_KEY}.${user.id}` : STORAGE_KEY;
-
   const [build, setBuild] = useState<BuildState>(EMPTY_BUILD);
   const [loaded, setLoaded] = useState(false);
   // Tracks which saved-to-account build (if any) is currently loaded, so
@@ -44,19 +34,16 @@ export function useBuild() {
 
   useEffect(() => {
     try {
-      const raw = localStorage.getItem(storageKey);
+      const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) setBuild(hydrate(JSON.parse(raw), catalog));
-      else setBuild(EMPTY_BUILD);
     } catch {
       /* ignore malformed local state */
     }
     setLoaded(true);
-    // Deliberately re-runs when storageKey changes (i.e. when the signed-in
-    // user changes) — that's the whole point. Catalog swapping from static
-    // to DB data isn't worth re-running hydration for, and would fight the
-    // user's own edits, so it stays out of the deps on purpose.
+    // Catalog swaps from static to DB data at most once after mount — not
+    // worth re-running hydration for, and would fight the user's own edits.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storageKey]);
+  }, []);
 
   useEffect(() => {
     if (!loaded) return;
@@ -65,8 +52,8 @@ export function useBuild() {
       const part = build[c];
       if (part) ids[c] = part.id;
     });
-    localStorage.setItem(storageKey, JSON.stringify(ids));
-  }, [build, loaded, storageKey]);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+  }, [build, loaded]);
 
   const setPart = useCallback((part: Part) => {
     setBuild((prev) => ({ ...prev, [part.category]: part }) as BuildState);

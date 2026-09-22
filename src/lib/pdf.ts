@@ -2,7 +2,7 @@ import { jsPDF, GState } from "jspdf";
 import { CATEGORIES } from "@/data/catalog";
 import type { BuildState, CategoryId } from "@/data/types";
 import type { CompatibilityReport } from "@/lib/compatibility";
-import { currency, watts } from "@/lib/format";
+import { currency, currencyRangeText, watts } from "@/lib/format";
 import type { BuildReviewResult, ReviewGrade } from "@/lib/review";
 
 const MARGIN_X = 48;
@@ -210,9 +210,15 @@ export function downloadBuildPdf(
 
     if (part) {
       doc.setFont("helvetica", "bold");
-      doc.setFontSize(10.5);
+      doc.setFontSize(9.5);
       doc.setTextColor(20);
-      doc.text(currency(part.price), PAGE_WIDTH - MARGIN_X, y + 16, { align: "right" });
+      doc.text(currencyRangeText(part.price), PAGE_WIDTH - MARGIN_X, y + 12, {
+        align: "right",
+      });
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(7.5);
+      doc.setTextColor(140);
+      doc.text("street price range", PAGE_WIDTH - MARGIN_X, y + 23, { align: "right" });
     }
 
     y += rowHeight;

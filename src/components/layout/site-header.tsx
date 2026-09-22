@@ -11,6 +11,7 @@ const NAV = [
   { to: "/", label: "Home", meta: "00" },
   { to: "/compare", label: "Compare", meta: "01" },
   { to: "/build", label: "Builder", meta: "02" },
+  { to: "/buy", label: "Where to Buy", meta: "03" },
 ] as const;
 
 export function SiteHeader() {

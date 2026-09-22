@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as BuildRouteImport } from './routes/build'
+import { Route as BuyRouteImport } from './routes/buy'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as FreeViewRouteImport } from './routes/free-view'
 import { Route as LoginRouteImport } from './routes/login'
@@ -42,6 +43,11 @@ const AdminRoute = AdminRouteImport.update({
 const BuildRoute = BuildRouteImport.update({
   id: '/build',
   path: '/build',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BuyRoute = BuyRouteImport.update({
+  id: '/buy',
+  path: '/buy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CompareRoute = CompareRouteImport.update({
@@ -100,6 +106,7 @@ export interface FileRoutesByFullPath {
   '/account': typeof AccountRoute
   '/admin': typeof AdminRouteWithChildren
   '/build': typeof BuildRoute
+  '/buy': typeof BuyRoute
   '/compare': typeof CompareRoute
   '/free-view': typeof FreeViewRoute
   '/login': typeof LoginRoute
@@ -115,6 +122,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/build': typeof BuildRoute
+  '/buy': typeof BuyRoute
   '/compare': typeof CompareRoute
   '/free-view': typeof FreeViewRoute
   '/login': typeof LoginRoute
@@ -132,6 +140,7 @@ export interface FileRoutesById {
   '/account': typeof AccountRoute
   '/admin': typeof AdminRouteWithChildren
   '/build': typeof BuildRoute
+  '/buy': typeof BuyRoute
   '/compare': typeof CompareRoute
   '/free-view': typeof FreeViewRoute
   '/login': typeof LoginRoute
@@ -150,6 +159,7 @@ export interface FileRouteTypes {
     | '/account'
     | '/admin'
     | '/build'
+    | '/buy'
     | '/compare'
     | '/free-view'
     | '/login'
@@ -165,6 +175,7 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/build'
+    | '/buy'
     | '/compare'
     | '/free-view'
     | '/login'
@@ -181,6 +192,7 @@ export interface FileRouteTypes {
     | '/account'
     | '/admin'
     | '/build'
+    | '/buy'
     | '/compare'
     | '/free-view'
     | '/login'
@@ -198,6 +210,7 @@ export interface RootRouteChildren {
   AccountRoute: typeof AccountRoute
   AdminRoute: typeof AdminRouteWithChildren
   BuildRoute: typeof BuildRoute
+  BuyRoute: typeof BuyRoute
   CompareRoute: typeof CompareRoute
   FreeViewRoute: typeof FreeViewRoute
   LoginRoute: typeof LoginRoute
@@ -234,6 +247,13 @@ declare module '@tanstack/react-router' {
       path: '/build'
       fullPath: '/build'
       preLoaderRoute: typeof BuildRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/buy': {
+      id: '/buy'
+      path: '/buy'
+      fullPath: '/buy'
+      preLoaderRoute: typeof BuyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/compare': {
@@ -330,6 +350,7 @@ const rootRouteChildren: RootRouteChildren = {
   AccountRoute: AccountRoute,
   AdminRoute: AdminRouteWithChildren,
   BuildRoute: BuildRoute,
+  BuyRoute: BuyRoute,
   CompareRoute: CompareRoute,
   FreeViewRoute: FreeViewRoute,
   LoginRoute: LoginRoute,

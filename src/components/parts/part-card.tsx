@@ -1,5 +1,6 @@
 import { Check, Plus } from "lucide-react";
 import type { Part } from "@/data/types";
+import { currency } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { PartVisual } from "./part-visual";
 import { Rating, SpecBar } from "./rating";
@@ -111,7 +112,7 @@ export function PartCard({
       <div className="mt-auto flex items-center justify-between gap-3 border-t border-border pt-3">
         <div>
           <p className="mono-data text-[17px] font-semibold tracking-[-0.02em]">
-            ${part.price.toFixed(2)}
+            {currency(part.price)}
           </p>
           <Rating value={part.rating} reviews={part.reviews} />
         </div>

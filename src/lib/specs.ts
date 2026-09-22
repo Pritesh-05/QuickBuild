@@ -1,4 +1,5 @@
 import type { CategoryId, Part } from "@/data/types";
+import { currency } from "@/lib/format";
 
 export type SpecDirection = "higher" | "lower" | "none";
 
@@ -17,7 +18,7 @@ const n = (v: number | null | undefined) => (typeof v === "number" ? v : null);
 const priceRow: SpecRow = {
   key: "price",
   label: "Price",
-  format: (p) => `$${p.price.toFixed(2)}`,
+  format: (p) => currency(p.price),
   value: (p) => p.price,
   better: "lower",
 };
@@ -40,9 +41,9 @@ const ratingRow: SpecRow = {
 
 const valueRow: SpecRow = {
   key: "value",
-  label: "Value (perf / $100)",
-  format: (p) => ((p.performance / p.price) * 100).toFixed(1),
-  value: (p) => (p.performance / p.price) * 100,
+  label: "Value (perf / ₹10,000)",
+  format: (p) => ((p.performance / p.price) * 10000).toFixed(1),
+  value: (p) => (p.performance / p.price) * 10000,
   better: "higher",
 };
 

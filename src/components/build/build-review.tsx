@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { Check, Copy, Download, Lightbulb, Link2, Loader2 } from "lucide-react";
+import { Check, Copy, Download, Lightbulb, Link2, Loader2, ShoppingCart } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { CATEGORIES } from "@/data/catalog";
 import type { BuildState } from "@/data/types";
@@ -159,6 +160,13 @@ export function BuildReviewPanel({ build, buildName, variant = "panel" }: BuildR
             >
               <Download className="size-3.5" /> Download PDF
             </button>
+
+            <Link
+              to="/buy"
+              className="mono-label inline-flex items-center gap-2 border border-border px-3.5 py-2.5 transition-colors hover:border-brand hover:text-brand"
+            >
+              <ShoppingCart className="size-3.5" /> Where to buy
+            </Link>
 
             {variant === "panel" && !shareUrl && (
               <button

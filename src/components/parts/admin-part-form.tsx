@@ -15,7 +15,7 @@ const COMMON_FIELDS: FieldConfig[] = [
 ];
 
 const SCORE_FIELDS: FieldConfig[] = [
-  { key: "price", label: "Price ($)", type: "number", step: 0.01 },
+  { key: "price", label: "Price (₹)", type: "number", step: 0.01 },
   { key: "rating", label: "Rating", type: "number", step: 0.1 },
   { key: "reviews", label: "Reviews", type: "number" },
   { key: "performance", label: "Performance", type: "number" },

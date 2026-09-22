@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Crown, Search, Trash2, X } from "lucide-react";
+import { ArrowRight, Crown, Home, Search, Trash2, X } from "lucide-react";
 import { CATEGORIES } from "@/data/catalog";
 import { useCatalog } from "@/hooks/use-catalog";
 import type { CategoryId, Part } from "@/data/types";
@@ -93,7 +93,14 @@ export function ComparePage({ initialCategory }: { initialCategory: CategoryId }
 
   return (
     <div className="mx-auto w-full max-w-[1400px] px-5 py-10 sm:px-8 lg:py-14">
-      <header className="max-w-2xl">
+      <Link
+        to="/"
+        className="mono-label inline-flex items-center gap-1.5 border border-border px-3 py-2 text-muted-foreground transition-colors hover:border-brand hover:text-brand"
+      >
+        <Home className="size-3.5" />
+        Back to home
+      </Link>
+      <header className="mt-6 max-w-2xl">
         <p className="mono-label text-brand">Comparison</p>
         <h1 className="display-lg mt-3">Compare Components</h1>
         <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">

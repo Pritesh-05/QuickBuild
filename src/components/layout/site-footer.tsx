@@ -47,7 +47,7 @@ export function SiteFooter() {
               <span className="size-1.5 rounded-full bg-success" />
               Catalog online
             </li>
-            <li>Prices in USD</li>
+            <li>Prices in INR (₹)</li>
             <li>Updated Aug 2026</li>
           </ul>
         </div>

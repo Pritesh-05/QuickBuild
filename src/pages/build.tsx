@@ -9,6 +9,7 @@ import {
   Copy,
   Cpu,
   GripVertical,
+  Home,
   Maximize2,
   Menu,
   Minimize2,
@@ -16,6 +17,7 @@ import {
   RotateCcw,
   Save,
   Search,
+  ShoppingCart,
   Sparkles,
   X,
   XCircle,
@@ -202,6 +204,15 @@ function Console() {
           >
             <Menu className="size-4" />
           </button>
+          <Link
+            to="/"
+            title="Back to home"
+            aria-label="Back to home"
+            className="mono-label flex h-9 shrink-0 items-center gap-1.5 border border-border px-2 text-muted-foreground transition-colors hover:border-brand hover:text-brand sm:px-3"
+          >
+            <Home className="size-4" />
+            <span className="hidden sm:inline">Home</span>
+          </Link>
           <p className="mono-label hidden truncate text-muted-foreground sm:block">
             <span className="text-brand">build</span> // {currentSave?.name ?? "untitled rig"}
           </p>
@@ -465,6 +476,16 @@ function Console() {
                   setMenuOpen(false);
                 }}
               />
+              <li>
+                <Link
+                  to="/buy"
+                  onClick={() => setMenuOpen(false)}
+                  className="mono-label flex w-full items-center gap-3 border border-border px-3 py-3 transition-colors hover:border-brand hover:text-brand"
+                >
+                  <ShoppingCart className="size-3.5" />
+                  Where to buy
+                </Link>
+              </li>
               <MenuAction icon={copied ? Check : Copy} label="Export parts list" onClick={copySummary} />
               <MenuAction
                 icon={RotateCcw}

@@ -291,7 +291,7 @@ export function HomePage() {
             <ul className="mono-data mt-5 space-y-px text-[13px]">
               {[
                 ["Viewport", "3D · hardware accelerated"],
-                ["Units", "USD · watts"],
+                ["Units", "INR · watts"],
                 ["Autosave", "Local device storage"],
                 ["Catalog source", "Static + live table"],
               ].map(([k, v]) => (
