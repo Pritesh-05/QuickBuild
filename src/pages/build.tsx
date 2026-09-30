@@ -9,7 +9,6 @@ import {
   Copy,
   Cpu,
   GripVertical,
-  Home,
   Maximize2,
   Menu,
   Minimize2,
@@ -17,7 +16,6 @@ import {
   RotateCcw,
   Save,
   Search,
-  ShoppingCart,
   Sparkles,
   X,
   XCircle,
@@ -67,6 +65,7 @@ function Console() {
     saveToAccount,
     loadSavedBuild,
     currentSave,
+    loaded,
   } = useBuild();
   const [active, setActive] = useState<CategoryId>("cpu");
   const [query, setQuery] = useState("");
@@ -166,14 +165,22 @@ function Console() {
   const progress = Math.round((completed / requiredCategories.length) * 100);
   const activeMeta = CATEGORIES.find((c) => c.id === active)!;
 
-  // Pop the review the moment a build actually reaches 100%
-  const prevProgressRef = useRef(progress);
+  // Pop the review the moment a build actually reaches 100% — but only for
+  // a real transition the user causes while on the page, never just from
+  // loading/revisiting a build that was already complete. Without the
+  // `loaded` gate, the ref below starts at 0 (build hasn't hydrated from
+  // localStorage/account yet on first render), so the very next render —
+  // hydration finishing, possibly landing straight on an already-100%
+  // build — looked exactly like a fresh 0→100 completion and popped the
+  // review every single time that build was opened, not just the once.
+  const prevProgressRef = useRef<number | null>(null);
   useEffect(() => {
-    if (prevProgressRef.current < 100 && progress === 100) {
+    if (!loaded) return;
+    if (prevProgressRef.current !== null && prevProgressRef.current < 100 && progress === 100) {
       setReviewOpen(true);
     }
     prevProgressRef.current = progress;
-  }, [progress]);
+  }, [progress, loaded]);
 
   function copySummary() {
     const lines = CATEGORIES.map((c) => {
@@ -204,24 +211,6 @@ function Console() {
           >
             <Menu className="size-4" />
           </button>
-          <Link
-            to="/"
-            title="Back to home"
-            aria-label="Back to home"
-            className="mono-label flex h-9 shrink-0 items-center gap-1.5 border border-border px-2 text-muted-foreground transition-colors hover:border-brand hover:text-brand sm:px-3"
-          >
-            <Home className="size-4" />
-            <span className="hidden sm:inline">Home</span>
-          </Link>
-          <Link
-            to="/buy"
-            title="Where to buy"
-            aria-label="Where to buy"
-            className="mono-label flex h-9 shrink-0 items-center gap-1.5 border border-border px-2 text-muted-foreground transition-colors hover:border-brand hover:text-brand sm:px-3"
-          >
-            <ShoppingCart className="size-4" />
-            <span className="hidden sm:inline">Where to Buy</span>
-          </Link>
           <p className="mono-label hidden truncate text-muted-foreground sm:block">
             <span className="text-brand">build</span> // {currentSave?.name ?? "untitled rig"}
           </p>
@@ -485,16 +474,6 @@ function Console() {
                   setMenuOpen(false);
                 }}
               />
-              <li>
-                <Link
-                  to="/buy"
-                  onClick={() => setMenuOpen(false)}
-                  className="mono-label flex w-full items-center gap-3 border border-border px-3 py-3 transition-colors hover:border-brand hover:text-brand"
-                >
-                  <ShoppingCart className="size-3.5" />
-                  Where to buy
-                </Link>
-              </li>
               <MenuAction icon={copied ? Check : Copy} label="Export parts list" onClick={copySummary} />
               <MenuAction
                 icon={RotateCcw}
