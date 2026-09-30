@@ -67,7 +67,6 @@ function Console() {
     saveToAccount,
     loadSavedBuild,
     currentSave,
-    loaded,
   } = useBuild();
   const [active, setActive] = useState<CategoryId>("cpu");
   const [query, setQuery] = useState("");
@@ -97,14 +96,14 @@ function Console() {
     sessionStorage.removeItem(SHARED_HANDOFF_KEY);
     try {
       adoptBuild(JSON.parse(raw) as BuildState);
-      toast.success("Shared build loaded — save it to keep your own copy");
+      toast.success("Shared build loaded â€” save it to keep your own copy");
     } catch {
       /* malformed hand-off, ignore */
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Handles "Load" from the /account page — see the comment on
+  // Handles "Load" from the /account page â€” see the comment on
   // LOAD_BUILD_HANDOFF_KEY in lib/shared-build-handoff.ts for why this has
   // to happen here (this component's own useBuild() instance) rather than
   // on /account itself.
@@ -167,27 +166,19 @@ function Console() {
   const progress = Math.round((completed / requiredCategories.length) * 100);
   const activeMeta = CATEGORIES.find((c) => c.id === active)!;
 
-  // Pop the review the moment a build actually reaches 100% — but only for
-  // a real transition the user causes while on the page, never just from
-  // loading/revisiting a build that was already complete. Without the
-  // `loaded` gate, the ref below starts at 0 (build hasn't hydrated from
-  // localStorage/account yet on first render), so the very next render —
-  // hydration finishing, possibly landing straight on an already-100%
-  // build — looked exactly like a fresh 0→100 completion and popped the
-  // review every single time that build was opened, not just the once.
-  const prevProgressRef = useRef<number | null>(null);
+  // Pop the review the moment a build actually reaches 100%
+  const prevProgressRef = useRef(progress);
   useEffect(() => {
-    if (!loaded) return;
-    if (prevProgressRef.current !== null && prevProgressRef.current < 100 && progress === 100) {
+    if (prevProgressRef.current < 100 && progress === 100) {
       setReviewOpen(true);
     }
     prevProgressRef.current = progress;
-  }, [progress, loaded]);
+  }, [progress]);
 
   function copySummary() {
     const lines = CATEGORIES.map((c) => {
       const p = build[c.id];
-      return `${c.shortLabel.padEnd(5)} ${p ? `${p.brand} ${p.name} — ${currency(p.price)}` : "—"}`;
+      return `${c.shortLabel.padEnd(5)} ${p ? `${p.brand} ${p.name} â€” ${currency(p.price)}` : "â€”"}`;
     });
     lines.push(
       "",
@@ -202,7 +193,7 @@ function Console() {
 
   return (
     <div className="flex h-[100dvh] flex-col overflow-hidden bg-background">
-      {/* ── Title rail ─────────────────────────────────────────── */}
+      {/* â”€â”€ Title rail â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <header className="flex shrink-0 items-center justify-between gap-2 border-b border-border bg-card px-2 py-2 sm:px-4 sm:py-2.5">
         <div className="flex min-w-0 items-center gap-2 sm:gap-3">
           <button
@@ -254,7 +245,7 @@ function Console() {
           >
             <Save className="size-3.5" />
             <span className="hidden sm:inline">
-              {saving ? "Saving…" : currentSave ? "Update" : "Save"}
+              {saving ? "Savingâ€¦" : currentSave ? "Update" : "Save"}
             </span>
           </button>
           <button
@@ -277,7 +268,7 @@ function Console() {
         </div>
       </header>
 
-      {/* ── Workspace ──────────────────────────────────────────── */}
+      {/* â”€â”€ Workspace â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div className="flex min-h-0 flex-1 flex-col lg:flex-row">
         
         {/* Viewport */}
@@ -418,7 +409,7 @@ function Console() {
                 <span className="flex items-center gap-2">
                   <IssueIcon level={report.status} />
                   <span className="mono-label text-muted-foreground">
-                    diagnostics · {report.issues.length}
+                    diagnostics Â· {report.issues.length}
                   </span>
                 </span>
                 <ChevronRight
@@ -448,7 +439,7 @@ function Console() {
         </aside>
       </div>
 
-      {/* ── Status bar ── */}
+      {/* â”€â”€ Status bar â”€â”€ */}
       <footer className="grid shrink-0 grid-cols-2 gap-px border-t border-border bg-border sm:grid-cols-4">
         <Metric label="build price" value={currency(report.totalPrice)} accent />
         <Metric label="total wattage" value={watts(report.estimatedPower)} />
@@ -467,7 +458,7 @@ function Console() {
         </div>
       </footer>
 
-      {/* ── Overlays (Menu, Presets, Review) ───────────────────── */}
+      {/* â”€â”€ Overlays (Menu, Presets, Review) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       {menuOpen && (
         <div className="fixed inset-0 z-[150] flex">
           <button
@@ -673,7 +664,7 @@ function PartRow({
         selected ? "bg-brand-soft" : "hover:bg-accent",
       )}
     >
-      {/* ── DRAG HANDLE ── */}
+      {/* â”€â”€ DRAG HANDLE â”€â”€ */}
       <div
         style={{ touchAction: "none" }}
         onPointerDown={(e) => {
@@ -711,7 +702,7 @@ function PartRow({
         <span className="mono-label block text-[10px] text-muted-foreground sm:text-[11px]">{part.brand}</span>
         <span className="block truncate text-[13px] font-medium leading-snug sm:text-[14px]">{part.name}</span>
         <span className="mono-data block truncate text-[10px] text-muted-foreground sm:text-[11px]">
-          {part.highlight} · {part.power}W
+          {part.highlight} Â· {part.power}W
         </span>
       </span>
 
